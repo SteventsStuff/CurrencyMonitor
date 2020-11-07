@@ -1,0 +1,7 @@
+# folders
+.idea
+.git
+
+# files
+.DS_Store
+*.log
