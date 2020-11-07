@@ -37,8 +37,8 @@ class NotificationHandler:
         """
         Send push notification with currency information, depending on OS type
 
-        :param args:
-        :param kwargs:
+        :param args: any positional arguments
+        :param kwargs: any keyword arguments
         :return: None
         """
         if platform.system() == 'Linux':
