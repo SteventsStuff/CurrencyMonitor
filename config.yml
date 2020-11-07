@@ -1,0 +1,22 @@
+base_currency: UAH
+
+main_currencies:
+  USD
+  EUR
+
+resources:
+  PrivatBank:
+    url: https://api.privatbank.ua/p24api/exchange_rates
+    do_notifications: True
+  OpenExchangeRateAPI:
+    url: https://open.exchangerate-api.com/v6/latest
+    do_notifications: True
+  CurrencyAPI:
+    url: https://currencyapi.net/api/v1/rates
+    do_notifications: True
+
+mongodb:
+  db_name: CurrencyMonitorDB
+
+notifications:
+  resource_limit: 3
