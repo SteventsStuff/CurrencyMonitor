@@ -179,9 +179,9 @@ def main() -> None:
     )
     try:
         process()
-    except (ConfigFileDoesNotFound, CanNotGetCurrenciesFromService, CanNotFindNewBaseCurrency):
-        logger.error('Can not continue processing...')
-        exit(1)
+    except (ConfigFileDoesNotFound, CanNotGetCurrenciesFromService, CanNotFindNewBaseCurrency) as e:
+        logger.error(f'Can not continue processing...\nError: {e}')
+        raise e
 
 
 if __name__ == '__main__':
