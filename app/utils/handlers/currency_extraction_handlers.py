@@ -39,17 +39,17 @@ class CurrencyExtractionHandler:
         :param exchange_rates: data from API response
         :return: recalculated dict of currencies
         """
-        new_base_currencies = {}
         new_base_value = exchange_rates.get(new_base)
         if new_base_value is None:
             logging.error(f'Can not find "{new_base}" in {exchange_rates}')
             raise CanNotFindNewBaseCurrency
 
+        new_base_currencies = {}
         for currency in exchange_rates:
             if currency == current_base:
-                new_base_currencies[currency] = new_base_value
+                new_base_currencies[currency] = exchange_rates[new_base]
             else:
-                new_base_currencies[currency] = round(new_base_value / exchange_rates[currency], 4)
+                new_base_currencies[currency] = round(exchange_rates[new_base] / exchange_rates[currency], 4)
 
         return new_base_currencies
 
@@ -104,13 +104,13 @@ class CurrencyExtractionHandler:
             return {}
 
         # changing base currency from USD to UAH
-        uah_base_currencies = cls.change_currency_base(response_data['base_code'], 'UAH', usd_base_currencies)
+        new_base_currencies = cls.change_currency_base(response_data['base_code'], 'UAH', usd_base_currencies)
 
         currencies_of_interest = config_helper.get_currencies_of_interest()
         extracted_currencies = dict()
-        for currency in uah_base_currencies:
+        for currency in new_base_currencies:
             if currency in currencies_of_interest:
-                extracted_currencies[currency] = (uah_base_currencies[currency], uah_base_currencies[currency])
+                extracted_currencies[currency] = (new_base_currencies[currency], new_base_currencies[currency])
         return extracted_currencies
 
     @classmethod
