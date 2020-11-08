@@ -146,20 +146,20 @@ def process() -> None:
     config_path = get_config_path(argument_parser)
 
     # set up handlers
-    config_helper = ConfigHandler(str(config_path))
-    db_client = MongoDBHandler(db_name=config_helper.get_mongodb_config()['db_name'])
+    config_handler = ConfigHandler(str(config_path))
+    db_client = MongoDBHandler(db_name=config_handler.get_mongodb_config()['db_name'])
     notify_handler = NotificationHandler()
 
     # set up notification limit
-    new_notification_limit = config_helper.get_notifications_config().get('resource_limit')
+    new_notification_limit = config_handler.get_notifications_config().get('resource_limit')
     if new_notification_limit is not None:
         NOTIFICATION_LIMIT = new_notification_limit
     logger.info(f'Notification limit set to: {NOTIFICATION_LIMIT}')
 
     # processing resources
-    resources = config_helper.get_all_resources_names()
+    resources = config_handler.get_all_resources_names()
     logger.info(f'Got {len(resources)} resources to process')
-    last_index = process_services(resources, db_client, config_helper, notify_handler)
+    last_index = process_services(resources, db_client, config_handler, notify_handler)
 
     # do notification report
     notify_handler.subtitle = 'Service Report'
@@ -174,7 +174,7 @@ def main() -> None:
     # setting up logger
     logging.basicConfig(
         format=LOGGER_FORMAT,
-        filename=f'currencyMonitor_{datetime.datetime.utcnow().strftime("%d%m%y")}.log',
+        filename=f'/var/log/currencyMonitor/currencyMonitor_{datetime.datetime.utcnow().strftime("%d%m%y")}.log',
         level=logging.INFO
     )
     try:
