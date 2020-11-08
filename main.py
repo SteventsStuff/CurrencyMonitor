@@ -117,7 +117,7 @@ def get_config_path(argument_parser: ArgumentsParser) -> str:
             'Can not get configuration file path from program arguments. It was not specified!'
             '\nTrying to use default configuration file path!'
         )
-        config_path = Path(__file__).parent.parent / "config.yml"
+        config_path = Path(__file__).parent / "config.yml"
         if not os.path.exists(config_path):
             logger.error('No configuration files was found! Can not continue work! Terminating program!')
             raise ConfigFileDoesNotFound
