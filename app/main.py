@@ -7,7 +7,7 @@ from pathlib import Path
 from app.utils.custom_exceptions import *
 from app.utils.handlers.config_handler import ConfigHandler
 from app.utils.handlers.mongo_db_handler import MongoDBHandler
-from app.utils.handlers.argumets_handler import ArgumentsParser
+from app.utils.handlers.arguments_handler import ArgumentsParser
 from app.utils.handlers.notification_handler import NotificationHandler
 from app.utils.handlers.currency_extraction_handlers import CurrencyExtractionHandler
 
