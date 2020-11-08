@@ -1,1 +1,1 @@
-export CURRENCY_API_KEY={{yourAPIKey}}
+export serviceName=yourAPIKey
