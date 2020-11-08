@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, MagicMock, patch, call
 
-from app.main import (
+from main import (
     prepare_db_payload, process_services, process, get_config_path, ConfigFileDoesNotFound,
     CanNotFindNewBaseCurrency, CanNotGetCurrenciesFromService, main
 )
@@ -17,7 +17,7 @@ class TestMain(unittest.TestCase):
         self.fake_parent = Mock()
         self.fake_parent.parent.parent = fake_parent_with_div
 
-    @patch('app.main.time')
+    @patch('main.time')
     def test_prepare_db_payload(self, patched_time):
         patched_time.time.return_value = 123456.7
         patched_time.timezone = 1234
@@ -31,9 +31,9 @@ class TestMain(unittest.TestCase):
         }
         self.assertEqual(result, expected)
 
-    @patch('app.main.NOTIFICATION_LIMIT', 3)
-    @patch('app.main.prepare_db_payload')
-    @patch('app.main.RESOURCE_HANDLERS_MAPPING')
+    @patch('main.NOTIFICATION_LIMIT', 3)
+    @patch('main.prepare_db_payload')
+    @patch('main.RESOURCE_HANDLERS_MAPPING')
     def test_process_services(self, patched_resource_handler_mapping, patched_prepare_db_payload):
         fake_handler = Mock()
         fake_handler.side_effect = [{'k': (1, 2)}, {}, TypeError, {'k': (1, 2)}]
@@ -59,8 +59,8 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
-    @patch('app.main.os')
-    @patch('app.main.Path')
+    @patch('main.os')
+    @patch('main.Path')
     def test_get_config_path_no_path_no_config_file(self, patched_path, patched_os):
         fake_argument_parser = Mock()
         fake_argument_parser.get_args.return_value = self.fake_args
@@ -71,8 +71,8 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(ConfigFileDoesNotFound):
             get_config_path(fake_argument_parser)
 
-    @patch('app.main.os')
-    @patch('app.main.Path')
+    @patch('main.os')
+    @patch('main.Path')
     def test_get_config_path_no_path_config_file_exists(self, patched_path, patched_os):
         fake_argument_parser = Mock()
         fake_argument_parser.get_args.return_value = self.fake_args
@@ -94,12 +94,12 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(result, 'fake_conf_path')
 
-    @patch('app.main.process_services')
-    @patch('app.main.NotificationHandler')
-    @patch('app.main.MongoDBHandler')
-    @patch('app.main.ConfigHandler')
-    @patch('app.main.get_config_path')
-    @patch('app.main.ArgumentsParser')
+    @patch('main.process_services')
+    @patch('main.NotificationHandler')
+    @patch('main.MongoDBHandler')
+    @patch('main.ConfigHandler')
+    @patch('main.get_config_path')
+    @patch('main.ArgumentsParser')
     def test_process(
             self, patched_argument_parser, patched_get_config_path, patched_config_handler, patched_mongo_db_handler,
             patched_notification_handler, patched_process_services
@@ -116,7 +116,7 @@ class TestMain(unittest.TestCase):
 
         patched_notification_handler.assert_has_calls(calls)
 
-    @patch('app.main.process')
+    @patch('main.process')
     def test_main_errors(self, patched_process):
         patched_process.side_effect = [
             CanNotFindNewBaseCurrency, ConfigFileDoesNotFound, CanNotGetCurrenciesFromService
