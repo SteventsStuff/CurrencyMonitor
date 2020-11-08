@@ -174,7 +174,7 @@ def main() -> None:
     # setting up logger
     logging.basicConfig(
         format=LOGGER_FORMAT,
-        filename=f'/var/log/currencyMonitor/currencyMonitor_{datetime.datetime.utcnow().strftime("%d%m%y")}.log',
+        filename=f'currencyMonitor_{datetime.datetime.utcnow().strftime("%d%m%y")}.log',
         level=logging.INFO
     )
     try:
