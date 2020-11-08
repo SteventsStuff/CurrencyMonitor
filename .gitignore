@@ -4,5 +4,5 @@
 
 # files
 .DS_Store
+setenv_.sh
 *.log
-api_keys
