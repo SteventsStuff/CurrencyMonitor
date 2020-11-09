@@ -1,3 +1,4 @@
+import os
 import logging
 
 from pymongo import MongoClient
@@ -8,8 +9,7 @@ class MongoDBHandler:
         self.db_name = db_name
         if db_path is None:
             logging.warning('Path to remote MongoDB was not specified. Using local MongoDB')
-            # self.client = MongoClient('mongodb://localhost:27017')
-            self.client = MongoClient('localhost', 27017)
+            self.client = MongoClient(os.environ.get('MONGO_DB_ADDR'), int(os.environ.get('MONGO_DB_PORT')))
         else:
             self.client = MongoClient(db_path)
 

@@ -96,7 +96,10 @@ def process_services(
             notify_manager.title = APP_TITLE
             notify_manager.subtitle = f'Source: {resource_name}'
             notify_manager.description = description
-            notify_manager.send_push_notification(group_id=index + 1)
+            try:
+                notify_manager.send_push_notification(group_id=index + 1)
+            except NotImplementedError:
+                logger.warning('Notification for thi system is not supported!')
 
         # update last index
         last_index = index + 1
@@ -167,7 +170,10 @@ def process() -> None:
         f'{SUCCESSFULLY_PARSED_RESOURCES_QUANTITY}/{len(resources)} Resources was successfully parsed'
     )
     # increase last_index to have different group id from last notification
-    notify_handler.send_push_notification(group_id=last_index + 1)
+    try:
+        notify_handler.send_push_notification(group_id=last_index + 1)
+    except NotImplementedError:
+        logger.warning('Notification for thi system is not supported!')
 
 
 def main() -> None:
@@ -182,6 +188,8 @@ def main() -> None:
     except (ConfigFileDoesNotFound, CanNotGetCurrenciesFromService, CanNotFindNewBaseCurrency) as e:
         logger.error(f'Can not continue processing...\nError: {e}')
         raise e
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == '__main__':

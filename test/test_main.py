@@ -15,7 +15,7 @@ class TestMain(unittest.TestCase):
         fake_parent_with_div = MagicMock()
         fake_parent_with_div.__truediv__.return_value = 'new_path'
         self.fake_parent = Mock()
-        self.fake_parent.parent.parent = fake_parent_with_div
+        self.fake_parent.parent = fake_parent_with_div
 
     @patch('main.time')
     def test_prepare_db_payload(self, patched_time):
