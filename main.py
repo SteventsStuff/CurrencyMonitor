@@ -150,7 +150,10 @@ def process() -> None:
 
     # set up handlers
     config_handler = ConfigHandler(str(config_path))
-    db_client = MongoDBHandler(db_name=config_handler.get_mongodb_config()['db_name'])
+    db_client = MongoDBHandler(
+        db_name=config_handler.get_mongodb_config().get('db_name', 'CurrencyMonitorDB'),
+        db_path=config_handler.get_mongodb_config().get('db_path'),
+    )
     notify_handler = NotificationHandler()
 
     # set up notification limit
