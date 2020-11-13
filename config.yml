@@ -17,6 +17,7 @@ resources:
 
 mongodb:
   db_name: CurrencyMonitorDB
+  db_path: mongodb://localhost:27017
 
 notifications:
   resource_limit: 3
